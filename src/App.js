@@ -16,8 +16,7 @@ function App() {
   }
 
   const handleSortByAge = (event) => {
-    let newArray = [...userData]
-    let result = newArray.sort((a, b) => {
+    let result = [...userData].sort((a, b) => {
       
       const el = event.target.value;
       
@@ -26,6 +25,8 @@ function App() {
       if (a.age > b.age) return el === "asc" ? 1 : -1;
 
       if (a.age === b.age) return 0;
+
+      return result;
       
     })
     // return result;
