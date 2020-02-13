@@ -1,4 +1,4 @@
-.App {
+/* .App {
   text-align: center;
 }
 
@@ -35,4 +35,51 @@
   to {
     transform: rotate(360deg);
   }
+} */
+
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+#root{
+  background-color: rgb(89, 79, 79);
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 18px;
+  color: rgb(255, 255, 255);
+}
+
+header{
+    display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+main{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+
+.card {
+  display: inline-block;
+  vertical-align: top;
+  width: 25%;
+  border: 1px solid #fff;
+  border-radius: 5px;
+  padding: 10px;
+  margin: 10px;
+  text-align: center;
+}
+
+.card h2 {
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  font-style: italic;
+  text-transform: uppercase;
+}
+
+.card p, h2 {
+  padding: 5px;
 }

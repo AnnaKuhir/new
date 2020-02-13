@@ -1,25 +1,84 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { useState } from 'react';
+import { userData } from './data/usersArr';
+import UsersCard from './components/UsersCard';
+// import logo from './logo.svg';
 import './App.css';
 
+
 function App() {
+  const [userList, setUserList] = useState([...userData]);
+  const handleFilterUserByName = (event) => {
+    let el = event.target.value;
+    const result = userData.filter(user => {
+      return user.name.toLowerCase().includes(el.toLowerCase()); 
+    });
+    setUserList(result);
+  }
+
+  const handleSortByAge = (event) => {
+    let newArray = [...userData]
+    let result = newArray.sort((a, b) => {
+      
+      const el = event.target.value;
+      
+      if (a.age < b.age) return el === "asc" ? -1 : 1;
+
+      if (a.age > b.age) return el === "asc" ? 1 : -1;
+
+      if (a.age === b.age) return 0;
+      
+    })
+    // return result;
+    setUserList(result);
+  }
+
+
+  const handleResetAll = () => {
+    // debugger;
+    let newArray = [...userData]
+
+    let findByNameReset = document.getElementById('findUser');
+    findByNameReset.value = null;
+
+    let sortByAgeReset = document.getElementById('userSortAge');
+    sortByAgeReset.value = null;
+    
+    setUserList(newArray)
+  }
+
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+    <>
+      <header>
+        <div className="findName">
+          <label htmlFor="findUser">Find user by name</label>
+          <input type="text" id="findUser" placeholder="Enter user name" onChange={handleFilterUserByName} />
+        </div>
+
+        <div className="chooseAge">
+        <label htmlFor="userSortAge">Sort users by age</label>
+          <select id="userSortAge" onChange={handleSortByAge}>
+            <option>Выберите</option>
+            <option value="dsc">От старшего к младшему</option>
+            <option value="asc">От младшего к старшему</option>
+         </select>
+        </div>
+
+        <div className="button-reset">
+          <button id="reset-all" type="button" onClick={handleResetAll}>Сбросить фильтры</button>
+        </div>
       </header>
-    </div>
+
+
+      <main>
+        {
+          userList.map(user => {
+            return <UsersCard user={user} key={`user${user._id}`} />
+          })
+        }
+      </main>
+    </>
+
   );
 }
 
