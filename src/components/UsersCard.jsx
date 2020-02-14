@@ -1,13 +1,16 @@
 import React from 'react';
 
-const UsersCard = (props) => {
+const UsersCard = props => {
+ const {user, handleShowModal} = props
+  // console.log(handleShowModal)
   return (
     <div className="card">
-      <img src={props.user.picture} alt="User photos"/>
-      <h2>{props.user.name}</h2>
-      <p>Age: {props.user.age}</p>
-      <p>Gender: {props.user.gender}</p>
-      <p>Card balance: {props.user.balance}</p>
+      <img src={user.picture} alt="User photos"/>
+      <h2>{user.name}</h2>
+      <p>Age: {user.age}</p>
+      <p>Gender: {user.gender}</p>
+      <p>Card balance: {user.balance}</p>
+      <button onClick={() => handleShowModal(user._id)}>Show info</button>
     </div>
   );
 }

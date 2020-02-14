@@ -44,16 +44,10 @@
 }
 
 #root{
-  background-color: rgb(89, 79, 79);
+  background-color: rgb(36, 33, 33);
   font-family: Arial, Helvetica, sans-serif;
   font-size: 18px;
   color: rgb(255, 255, 255);
-}
-
-header{
-    display: flex;
-  flex-wrap: wrap;
-  justify-content: space-around;
 }
 
 main{
@@ -61,7 +55,6 @@ main{
   flex-wrap: wrap;
   justify-content: center;
 }
-
 
 .card {
   display: inline-block;

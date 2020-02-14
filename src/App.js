@@ -3,23 +3,31 @@ import { userData } from './data/usersArr';
 import UsersCard from './components/UsersCard';
 // import logo from './logo.svg';
 import './App.css';
+import Modal from './components/Modal'
+import Header from './components/Header'
+
 
 
 function App() {
   const [userList, setUserList] = useState([...userData]);
+  const [modal, setModal] = useState({
+    isShow: false,
+    id: null
+  });
+
   const handleFilterUserByName = (event) => {
     let el = event.target.value;
     const result = userData.filter(user => {
-      return user.name.toLowerCase().includes(el.toLowerCase()); 
+      return user.name.toLowerCase().includes(el.toLowerCase());
     });
     setUserList(result);
   }
 
   const handleSortByAge = (event) => {
-    let result = [...userData].sort((a, b) => {
-      
+    let newArray = [...userData]
+    let result = newArray.sort((a, b) => {
       const el = event.target.value;
-      
+
       if (a.age < b.age) return el === "asc" ? -1 : 1;
 
       if (a.age > b.age) return el === "asc" ? 1 : -1;
@@ -27,7 +35,6 @@ function App() {
       if (a.age === b.age) return 0;
 
       return result;
-      
     })
     // return result;
     setUserList(result);
@@ -42,42 +49,42 @@ function App() {
     findByNameReset.value = null;
 
     let sortByAgeReset = document.getElementById('userSortAge');
-    sortByAgeReset.value = null;
-    
+    sortByAgeReset.value = "defaultAge";
+
     setUserList(newArray)
   }
 
+  const handleShowModal = (id) => {
+    setModal({ isShow: true, id })
+  }
+
+  const handleCloseModal = (id) => {
+    setModal({ isShow: false, id })
+  }
 
   return (
     <>
-      <header>
-        <div className="findName">
-          <label htmlFor="findUser">Find user by name</label>
-          <input type="text" id="findUser" placeholder="Enter user name" onChange={handleFilterUserByName} />
-        </div>
-
-        <div className="chooseAge">
-        <label htmlFor="userSortAge">Sort users by age</label>
-          <select id="userSortAge" onChange={handleSortByAge}>
-            <option>Выберите</option>
-            <option value="dsc">От старшего к младшему</option>
-            <option value="asc">От младшего к старшему</option>
-         </select>
-        </div>
-
-        <div className="button-reset">
-          <button id="reset-all" type="button" onClick={handleResetAll}>Сбросить фильтры</button>
-        </div>
-      </header>
-
+      <Header handleFilterUserByName={handleFilterUserByName} 
+              handleSortByAge={handleSortByAge}
+               handleResetAll={handleResetAll} 
+               />
 
       <main>
         {
           userList.map(user => {
-            return <UsersCard user={user} key={`user${user._id}`} />
+            return <UsersCard 
+                    user={user} 
+                    key={`user${user._id}`} 
+                    handleShowModal={handleShowModal} 
+                    />
           })
         }
       </main>
+
+      {modal.isShow && <Modal
+                       user={userList.find(u => u._id === modal.id)}
+                        handleCloseModal={handleCloseModal} 
+                        />}
     </>
 
   );
