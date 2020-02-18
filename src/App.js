@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import { userData } from './data/usersArr';
-import UsersCard from './components/UsersCard';
-// import logo from './logo.svg';
 import './App.css';
 import Modal from './components/Modal'
 import Header from './components/Header'
+import Main from './components/Main'
+import ModalSize from './components/ModalSize/ModalSize.jsx';
+
+
 
 
 
@@ -14,45 +16,6 @@ function App() {
     isShow: false,
     id: null
   });
-
-  const handleFilterUserByName = (event) => {
-    let el = event.target.value;
-    const result = userData.filter(user => {
-      return user.name.toLowerCase().includes(el.toLowerCase());
-    });
-    setUserList(result);
-  }
-
-  const handleSortByAge = (event) => {
-    let newArray = [...userData]
-    let result = newArray.sort((a, b) => {
-      const el = event.target.value;
-
-      if (a.age < b.age) return el === "asc" ? -1 : 1;
-
-      if (a.age > b.age) return el === "asc" ? 1 : -1;
-
-      if (a.age === b.age) return 0;
-
-      return result;
-    })
-    // return result;
-    setUserList(result);
-  }
-
-
-  const handleResetAll = () => {
-    // debugger;
-    let newArray = [...userData]
-
-    let findByNameReset = document.getElementById('findUser');
-    findByNameReset.value = null;
-
-    let sortByAgeReset = document.getElementById('userSortAge');
-    sortByAgeReset.value = "defaultAge";
-
-    setUserList(newArray)
-  }
 
   const handleShowModal = (id) => {
     setModal({ isShow: true, id })
@@ -64,29 +27,17 @@ function App() {
 
   return (
     <>
-      <Header handleFilterUserByName={handleFilterUserByName} 
-              handleSortByAge={handleSortByAge}
-               handleResetAll={handleResetAll} 
-               />
-
-      <main>
-        {
-          userList.map(user => {
-            return <UsersCard 
-                    user={user} 
-                    key={`user${user._id}`} 
-                    handleShowModal={handleShowModal} 
-                    />
-          })
-        }
-      </main>
-
+      <ModalSize/>
+      <Header setUserList={setUserList}/>
+      <Main userList={userList}
+            handleShowModal={handleShowModal}
+            />
       {modal.isShow && <Modal
                        user={userList.find(u => u._id === modal.id)}
                         handleCloseModal={handleCloseModal} 
                         />}
-    </>
 
+    </>
   );
 }
 
